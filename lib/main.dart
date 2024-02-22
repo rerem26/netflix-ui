@@ -19,8 +19,31 @@ class NetflixHomePage extends StatefulWidget {
   @override
   _NetflixHomePageState createState() => _NetflixHomePageState();
 }
-
 class _NetflixHomePageState extends State<NetflixHomePage> {
+  // Movie lists
+  List<String> trendingMovies = [
+    'https://image.tmdb.org/t/p/original/9b9XJQElx8TD7oJT5rDaK1kWnF7.jpg', // Assuming 'movie1.png' is in your assets/images directory
+  ];
+
+  List<String> continueWatchingMovies = [
+    'https://4.bp.blogspot.com/-uTD-3t7Yny8/TmGHpCxqcII/AAAAAAAAAH0/1CKbCEzOagw/s1600/Mediafire+One+Piece+Movie+03+Download+Anime.jpg',
+  ];
+
+  // Method to build movie poster widget
+  Widget _buildMoviePoster(String imageUrl) {
+    return Container(
+      width: 130,
+      margin: EdgeInsets.only(right: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        image: DecorationImage(
+          image: NetworkImage(imageUrl),
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,18 +81,42 @@ class _NetflixHomePageState extends State<NetflixHomePage> {
                 ),
                 prefixIcon: Icon(Icons.search, color: Colors.grey),
               ),
-              onSubmitted: (value) {
-                // Implement search functionality here
-              },
             ),
             SizedBox(height: 20),
-            _buildCategorySection("Continue Watching"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Continue Watching',
+                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'View All',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
             SizedBox(height: 10),
-            _buildMovieList(),
+            Container(
+              height: 200,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: continueWatchingMovies.map((imageUrl) => _buildMoviePoster(imageUrl)).toList(),
+              ),
+            ),
             SizedBox(height: 20),
-            _buildCategorySection("Trending Now"),
+            Text(
+              'Trending Now',
+              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10),
-            _buildMovieList(),
+            Container(
+              height: 200,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: trendingMovies.map((imageUrl) => _buildMoviePoster(imageUrl)).toList(),
+              ),
+            ),
           ],
         ),
       ),
@@ -96,48 +143,6 @@ class _NetflixHomePageState extends State<NetflixHomePage> {
             label: 'Profile',
           ),
         ],
-        onTap: (index) {
-          // Handle navigation based on the index
-        },
-      ),
-    );
-  }
-
-  Widget _buildCategorySection(String title) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        Text(
-          'View All',
-          style: TextStyle(color: Colors.grey),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMovieList() {
-    return Container(
-      height: 200,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        children: List.generate(
-          3,
-          (index) => Container(
-            width: 130,
-            margin: EdgeInsets.only(right: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage('IMAGE URL'), // Placeholder image
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
       ),
     );
   }
