@@ -4,7 +4,8 @@ void main() {
   runApp(
     MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.black,
+        useMaterial3: true,
+        primaryColor: Colors.black, // Netflix primary color
       ),
       debugShowCheckedModeBanner: false,
       home: NetflixHomePage(),
@@ -20,66 +21,55 @@ class NetflixHomePage extends StatefulWidget {
 }
 
 class _NetflixHomePageState extends State<NetflixHomePage> {
-  int num = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text(
+          "NETFLIX",
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.search),
+            color: Colors.white,
+          ),
+        ],
+      ),
       backgroundColor: Colors.black,
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image.asset(
-                  'assets/netflix_logo.png', // Your Netflix logo asset
-                  width: 100,
-                  height: 50,
+            SizedBox(height: 10),
+            TextField(
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.grey[800],
+                hintText: 'Search',
+                hintStyle: TextStyle(color: Colors.grey),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.search),
-                  color: Colors.white,
-                ),
-              ],
+                prefixIcon: Icon(Icons.search, color: Colors.grey),
+              ),
+              onSubmitted: (value) {
+                // Implement search functionality here
+              },
             ),
             SizedBox(height: 20),
-            Text(
-              'Continue Watching',
-              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            _buildCategorySection("Continue Watching"),
             SizedBox(height: 10),
-            Container(
-              height: 200,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _buildMovieItem('Movie 1', 'assets/movie1.jpg'),
-                  _buildMovieItem('Movie 2', 'assets/movie2.jpg'),
-                  _buildMovieItem('Movie 3', 'assets/movie3.jpg'),
-                ],
-              ),
-            ),
-            SizedBox(height: 40),
-            Text(
-              'Trending Now',
-              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            _buildMovieList(),
+            SizedBox(height: 20),
+            _buildCategorySection("Trending Now"),
             SizedBox(height: 10),
-            Container(
-              height: 200,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _buildMovieItem('Movie 4', 'assets/movie4.jpg'),
-                  _buildMovieItem('Movie 5', 'assets/movie5.jpg'),
-                  _buildMovieItem('Movie 6', 'assets/movie6.jpg'),
-                ],
-              ),
-            ),
+            _buildMovieList(),
           ],
         ),
       ),
@@ -106,41 +96,49 @@ class _NetflixHomePageState extends State<NetflixHomePage> {
             label: 'Profile',
           ),
         ],
+        onTap: (index) {
+          // Handle navigation based on the index
+        },
       ),
     );
   }
 
-  Widget _buildMovieItem(String title, String imagePath) {
-    return Container(
-      width: 130,
-      margin: EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        image: DecorationImage(
-          image: AssetImage(imagePath),
-          fit: BoxFit.cover,
+  Widget _buildCategorySection(String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-      Container(
-      padding: EdgeInsets.all(😎,
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.7),
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10),
+        Text(
+          'View All',
+          style: TextStyle(color: Colors.grey),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMovieList() {
+    return Container(
+      height: 200,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        children: List.generate(
+          3,
+          (index) => Container(
+            width: 130,
+            margin: EdgeInsets.only(right: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                image: NetworkImage('IMAGE URL'), // Placeholder image
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
-        child: Text(
-          title,
-          style: TextStyle(color: Colors.white),
-        ),
       ),
-      ],
-    ),
     );
   }
 }
