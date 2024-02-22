@@ -14,42 +14,109 @@ void main() {
 }
 
 class NetflixHomePage extends StatefulWidget {
-  const NetflixHomePage({super.key});
+  const NetflixHomePage({Key? key}) : super(key: key);
 
   @override
   _NetflixHomePageState createState() => _NetflixHomePageState();
 }
+
 class _NetflixHomePageState extends State<NetflixHomePage> {
   // Movie lists
-  List<String> trendingMovies = [
-    'https://image.tmdb.org/t/p/original/9b9XJQElx8TD7oJT5rDaK1kWnF7.jpg', // Assuming 'movie1.png' is in your assets/images directory
-    'https://4.bp.blogspot.com/-uTD-3t7Yny8/TmGHpCxqcII/AAAAAAAAAH0/1CKbCEzOagw/s1600/Mediafire+One+Piece+Movie+03+Download+Anime.jpg', // Assuming 'movie2.png' is in your assets/images directory
-    'https://image.tmdb.org/t/p/original/qD9swRIaCCPQlnH6GkHyqO8E6E9.jpg', // Assuming 'movie3.png' is in your assets/images directory
-    'https://img3.wikia.nocookie.net/__cb20141118000029/dragonball/images/d/d2/Dbz_movie_2015_poster.jpg',
-    'https://image.tmdb.org/t/p/original/8Y7WrRK1iQHEX7UIftBeBMjPjWD.jpg',
-    'https://image.tmdb.org/t/p/original/ujMbCKTmfV8rP6IGWfTSjXwr3mG.jpg',
-    'https://image.tmdb.org/t/p/original/1SlhjVF0QYYd3c8fJehGDrFfrQI.jpg',
-    'https://1.bp.blogspot.com/-uzRa3MaysHQ/VEcjx8Gpi8I/AAAAAAAAeWg/B_n6dtZM2dM/s1600/FURY%2Bposter.jpg',
+  List<Map<String, String>> trendingMovies = [
+    {
+      'imageUrl':
+      'https://image.tmdb.org/t/p/original/9b9XJQElx8TD7oJT5rDaK1kWnF7.jpg',
+      'name': 'Train to Busan',
+    },
+    {
+      'imageUrl':
+      'https://4.bp.blogspot.com/-uTD-3t7Yny8/TmGHpCxqcII/AAAAAAAAAH0/1CKbCEzOagw/s1600/Mediafire+One+Piece+Movie+03+Download+Anime.jpg',
+      'name': 'One Piece',
+    },
+    {
+      'imageUrl':
+      'https://image.tmdb.org/t/p/original/qD9swRIaCCPQlnH6GkHyqO8E6E9.jpg',
+      'name': 'Naruto',
+    },
+    {
+      'imageUrl':
+      'https://img3.wikia.nocookie.net/__cb20141118000029/dragonball/images/d/d2/Dbz_movie_2015_poster.jpg',
+      'name': 'Dragon Ball Z',
+    },
+    {
+      'imageUrl':
+      'https://image.tmdb.org/t/p/original/8Y7WrRK1iQHEX7UIftBeBMjPjWD.jpg',
+      'name': 'Avatar',
+    },
+    {
+      'imageUrl':
+      'https://image.tmdb.org/t/p/original/ujMbCKTmfV8rP6IGWfTSjXwr3mG.jpg',
+      'name': 'Beekeeper',
+    },
+    {
+      'imageUrl':
+      'https://image.tmdb.org/t/p/original/1SlhjVF0QYYd3c8fJehGDrFfrQI.jpg',
+      'name': 'Dead Pool 3',
+    },
+    {
+      'imageUrl':
+      'https://1.bp.blogspot.com/-uzRa3MaysHQ/VEcjx8Gpi8I/AAAAAAAAeWg/B_n6dtZM2dM/s1600/FURY%2Bposter.jpg',
+      'name': 'Fury',
+    },
   ];
 
-  List<String> continueWatchingMovies = [
-    'https://4.bp.blogspot.com/-uTD-3t7Yny8/TmGHpCxqcII/AAAAAAAAAH0/1CKbCEzOagw/s1600/Mediafire+One+Piece+Movie+03+Download+Anime.jpg',
-    'https://img3.wikia.nocookie.net/__cb20141118000029/dragonball/images/d/d2/Dbz_movie_2015_poster.jpg',
-    'https://1.bp.blogspot.com/-uzRa3MaysHQ/VEcjx8Gpi8I/AAAAAAAAeWg/B_n6dtZM2dM/s1600/FURY%2Bposter.jpg',
-    'https://image.tmdb.org/t/p/original/1SlhjVF0QYYd3c8fJehGDrFfrQI.jpg',
+  List<Map<String, String>> continueWatchingMovies = [
+    {
+      'imageUrl':
+      'https://4.bp.blogspot.com/-uTD-3t7Yny8/TmGHpCxqcII/AAAAAAAAAH0/1CKbCEzOagw/s1600/Mediafire+One+Piece+Movie+03+Download+Anime.jpg',
+      'name': 'One Piece',
+    },
+    {
+      'imageUrl':
+      'https://img3.wikia.nocookie.net/__cb20141118000029/dragonball/images/d/d2/Dbz_movie_2015_poster.jpg',
+      'name': 'Dragon Ball Z',
+    },
+    {
+      'imageUrl':
+      'https://1.bp.blogspot.com/-uzRa3MaysHQ/VEcjx8Gpi8I/AAAAAAAAeWg/B_n6dtZM2dM/s1600/FURY%2Bposter.jpg',
+      'name': 'Fury',
+    },
+    {
+      'imageUrl':
+      'https://image.tmdb.org/t/p/original/1SlhjVF0QYYd3c8fJehGDrFfrQI.jpg',
+      'name': 'Dead Pool 3',
+    },
   ];
 
   // Method to build movie poster widget
-  Widget _buildMoviePoster(String imageUrl) {
+  Widget _buildMoviePoster(Map<String, String> movie) {
     return Container(
       width: 130,
       margin: const EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         image: DecorationImage(
-          image: NetworkImage(imageUrl),
+          image: NetworkImage(movie['imageUrl']!),
           fit: BoxFit.cover,
         ),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.all(😎,
+              color: Colors.black.withOpacity(0.5),
+              child: Text(
+                movie['name']!,
+                style: const TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -111,7 +178,7 @@ class _NetflixHomePageState extends State<NetflixHomePage> {
               height: 200,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: continueWatchingMovies.map((imageUrl) => _buildMoviePoster(imageUrl)).toList(),
+                children: continueWatchingMovies.map((movie) => _buildMoviePoster(movie)).toList(),
               ),
             ),
             const SizedBox(height: 20),
@@ -124,7 +191,7 @@ class _NetflixHomePageState extends State<NetflixHomePage> {
               height: 200,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: trendingMovies.map((imageUrl) => _buildMoviePoster(imageUrl)).toList(),
+                children: trendingMovies.map((movie) => _buildMoviePoster(movie)).toList(),
               ),
             ),
           ],
